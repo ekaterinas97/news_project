@@ -13,7 +13,20 @@ class SourceSeeder extends Seeder
      */
     public function run(): void
     {
-
+        DB::table('sources')->insert($this->getData());
+    }
+    private function getData(): array
+    {
+        $data = [];
+        for ($i = 0; $i < 10; $i++) {
+            $data[] = [
+                'title' => \fake()->domainName(),
+                'url' => \fake()->url(),
+                'created_at' => \now(),
+                'updated_at' => \now()
+            ];
+        }
+        return $data;
     }
 
 }

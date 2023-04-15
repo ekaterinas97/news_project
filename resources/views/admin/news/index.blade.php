@@ -8,7 +8,6 @@
             </div>
         </div>
     </div>
-
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -31,6 +30,7 @@
                     <td>{{ $news->status }}</td>
                     <td>{{ $news->description }}</td>
                     <td>{{ $news->created_at }}</td>
+
                     <td>
                         <a href="#">Изменить</a>
                         <a href="#" style="color: tomato">Удалить</a>

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('sources', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 191);
+            $table->string('url', 255);
             $table->timestamps();
         });
     }
