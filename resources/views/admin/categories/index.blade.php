@@ -25,7 +25,7 @@
                     <td>{{ $category->title }}</td>
                     <td>{{ $category->description }}</td>
                     <td>
-                        <a href="#">Изменить</a>
+                        <a href="{{ route('admin.categories.edit', ['category' => $category]) }}">Изменить</a>
                         <a href="#" style="color: tomato">Удалить</a>
                     </td>
                 </tr>
@@ -37,5 +37,6 @@
             </tbody>
 
         </table>
+        {{ $categoryList->links() }}
     </div>
 @endsection
