@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Source extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    protected  $table = 'sources';
+
+    protected $fillable = [
+        'title',
+        'url'
+    ];
 }

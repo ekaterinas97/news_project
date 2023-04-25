@@ -17,7 +17,7 @@ final class NewsQueryBuilder extends QueryBuilder
     }
     public function getNewsByStatus(string $status): Collection
     {
-        return News::query()->where('status', $status)->get();
+        return $this->model->where('status', $status)->get();
     }
 
     public function getNewsWithPagination(int $quantity = 10): LengthAwarePaginator

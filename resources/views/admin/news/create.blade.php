@@ -11,8 +11,8 @@
     <form method="post" action="{{ route('admin.news.store') }}">
         @csrf
         <div class="mb-3">
-            <label for="category_id" class="form-label">Категория</label>
-            <select class="form-control" id="category_id" name="category_id">
+            <label for="category_ids" class="form-label">Категория</label>
+            <select class="form-control" id="category_ids" name="category_ids[]" multiple>
                 <option value="0">--Выбрать--</option>
                 @foreach($categories as $category)
                     <option @if((int)old('category_id') === $category->id) selected @endif value="{{ $category->id }}">
@@ -23,11 +23,12 @@
         </div>
         <div class="mb-3">
             <label for="title" class="form-label">Заголовок</label>
-            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
+            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}">
+
         </div>
         <div class="mb-3">
             <label for="author" class="form-label">Автор</label>
-            <input type="text" class="form-control" id="author" name="author" value="{{ old('author') }}">
+            <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" value="{{ old('author') }}">
         </div>
         <div class="mb-3">
             <label for="status" class="form-label">Статус</label>

@@ -22,8 +22,6 @@ class SourceSeeder extends Seeder
             $data[] = [
                 'title' => \fake()->domainName(),
                 'url' => \fake()->url(),
-                'created_at' => \now(),
-                'updated_at' => \now()
             ];
         }
         return $data;

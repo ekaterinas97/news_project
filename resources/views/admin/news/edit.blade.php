@@ -13,7 +13,7 @@
         @method('put')
         <div class="mb-3">
             <label for="category_ids" class="form-label">Категория</label>
-            <select class="form-control" id="category_ids" name="category_ids" multiple>
+            <select class="form-control" id="category_ids" name="category_ids[]" multiple>
                 <option value="0">--Выбрать--</option>
                 @foreach($categories as $category)
                     <option @if(in_array($category->id, $news->categories->pluck('id')->toArray())) selected @endif value="{{ $category->id }}">
