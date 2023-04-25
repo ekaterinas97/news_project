@@ -104,7 +104,7 @@
 </header>
 
 <main>
-    <div class="album py-5 bg-body-tertiary">
+    <div class="album py-5 bg-body-tertiary container">
         @yield('content')
     </div>
 </main>

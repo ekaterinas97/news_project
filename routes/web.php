@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\IndexController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Order\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(): void{
     Route::get('/', IndexController::class)->name('index');
     Route::resource('/categories', CategoryController::class);
@@ -32,4 +34,10 @@ Route::group(['prefix' => ''], static function(){
     Route::get('/news/show/{id}', [NewsController::class, 'show'])
         ->where('id', '\d+')->name('news.show');
 });
+
+// ORDER
+Route::group(['prefix' => 'order', 'as' => 'order.'], static function(): void{
+    Route::resource('/', OrderController::class);
+});
+
 
