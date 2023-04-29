@@ -10,21 +10,21 @@
         @csrf
         <div class="mb-3">
             <label for="user_name" class="form-label">Ваше имя</label>
-            <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="user_name" name="user_name" value="{{ old('title') }}">
+            <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="user_name" name="user_name" value="{{ old('user_name') }}">
 
         </div>
         <div class="mb-3">
             <label for="user_phone" class="form-label">Телефон</label>
-            <input type="tel" class="form-control @error('user_phone') is-invalid @enderror" id="user_phone" name="user_phone" value="{{ old('author') }}">
+            <input type="tel" class="form-control @error('user_phone') is-invalid @enderror" id="user_phone" name="user_phone" value="{{ old('user_phone') }}">
         </div>
         <div class="mb-3">
             <label for="user_email" class="form-label">Email</label>
-            <input type="email" class="form-control @error('user_email') is-invalid @enderror" id="user_email" name="user_email" value="{{ old('author') }}">
+            <input type="email" class="form-control @error('user_email') is-invalid @enderror" id="user_email" name="user_email" value="{{ old('user_email') }}">
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Какие данные вам нужны</label>
-            <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+            <textarea class="form-control" id="description" name="description" rows="3">{!! old('description') !!}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
     </form>

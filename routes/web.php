@@ -41,3 +41,17 @@ Route::group(['prefix' => 'order', 'as' => 'order.'], static function(): void{
 });
 
 
+Route::get('session', function (){
+   $sessionName = 'test';
+   if(session()->has($sessionName)){
+        //dd(session()->get($sessionName), session()->all());
+        session()->forget($sessionName);
+   }
+   dd(session()->all());
+   session()->put($sessionName, 'example');
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
