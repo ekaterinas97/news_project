@@ -22,7 +22,25 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_name' => ['required', 'string', 'min:4', 'max:20'],
+            'user_phone' => ['required', 'min:11'],
+            'user_email' => ['required', 'email:rfc,dns' ],
+            'description' => ['required']
+        ];
+    }
+    public function attributes(): array
+    {
+        return [
+            'user_name' => 'Имя заказчика',
+            'user_phone' => 'Телефон',
+            'user_email' => 'Email',
+            'description' => 'Какие данные вам нужны'
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'required' => 'Нужно заполнить поле :attribute',
         ];
     }
 }
