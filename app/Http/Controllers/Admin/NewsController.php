@@ -2,49 +2,62 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\NewsStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\EditRequest;
 use App\Models\News;
-use Illuminate\Http\Request;
+use App\QueryBuilders\CategoriesQueryBuilder;
+use App\QueryBuilders\NewsQueryBuilder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @param NewsQueryBuilder $newsQueryBuilder
+     * @return View
      */
-    public function index(): View
+    public function index(NewsQueryBuilder $newsQueryBuilder): View
     {
-        $model = new News();
-        $newsList = $model->getNews();
-//        $join = \DB::table('news')
-//            ->join('category_has_news as chn', 'news.id' , '=', 'chn.news_id')
-//            ->join('categories', 'chn.category_id', '=', 'categories.id')
-//            ->select("news.*", 'chn.category_id', 'categories.title as ctitle')
-//            ->get();
-//        dd($join);
         return view('admin.news.index', [
-            'newsList' => $newsList
+            'newsList' => $newsQueryBuilder->getNewsWithPagination(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
+     * @param CategoriesQueryBuilder $categoriesQueryBuilder
+     * @return View
      */
-    public function create()
+    public function create(CategoriesQueryBuilder $categoriesQueryBuilder): View
     {
-        return  view('admin.news.create');
+        return  view('admin.news.create', [
+            'categories' => $categoriesQueryBuilder->getAll(),
+            'statusList' => NewsStatus::all()
+        ]);
 
     }
 
     /**
      * Store a newly created resource in storage.
+     * @param CreateRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request): RedirectResponse
     {
-//        $request->validate([
-//            'title' => 'required'
-//        ]);
-//        dd($request->only(['title', 'description']));
+//        dd($request->validated());
+        $news = News::create($request->validated());
+
+        if($news->save()){
+            $news->categories()->attach($request->getCategoryIds());
+            return redirect()->route('admin.news.index')->with('success', __('messages.admin.news.success'));
+        }
+
+        return back()->with('error', __('messages.admin.news.fail'));
+
     }
 
     /**
@@ -57,25 +70,47 @@ class NewsController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param News $news
+     * @param CategoriesQueryBuilder $categoriesQueryBuilder
+     * @return View
      */
-    public function edit(string $id)
+    public function edit(News $news, CategoriesQueryBuilder $categoriesQueryBuilder): View
     {
-        //
+        return  view('admin.news.edit', [
+            'news' => $news,
+            'categories' => $categoriesQueryBuilder->getAll(),
+            'statusList' => NewsStatus::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
+     * @param EditRequest $request
+     * @param News $news
+     * @return RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(EditRequest $request, News $news): RedirectResponse
     {
-        //
+        $news = $news->fill($request->validated());
+        if($news->save()){
+            $news->categories()->sync($request->getCategoryIds());
+            return redirect()->route('admin.news.index')->with('success', 'Новость успешно обновлена');
+        }
+        return back()->with('error', 'Не удалось обновить запись');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(News $news): JsonResponse
     {
-        //
+        try {
+            $news->delete();
+            return \response()->json('ok', 200);
+        }catch (\Exception $exception){
+            \Log::error($exception->getMessage(), [$exception]);
+            return \response()->json('error', 400);
+        }
     }
 }
