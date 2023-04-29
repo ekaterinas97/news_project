@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
+    <meta name="csrf-token" content="{{ csrf_token() }}" >
     <title>Dashboard Template · Bootstrap v5.3</title>
 
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -119,5 +120,6 @@
 
 <script src="{{ asset('assets/js/feather.min.js') }}"></script>
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+@stack('js')
 </body>
 </html>

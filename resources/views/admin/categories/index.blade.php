@@ -8,4 +8,35 @@
             </div>
         </div>
     </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>#ID</td>
+                <td>Название</td>
+                <td>Описание</td>
+                <td>Действия</td>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($categoryList as $category)
+                <tr>
+                    <td>{{ $category->id }}</td>
+                    <td>{{ $category->title }}</td>
+                    <td>{{ $category->description }}</td>
+                    <td>
+                        <a href="{{ route('admin.categories.edit', ['category' => $category]) }}">Изменить</a>
+                        <a href="#" style="color: tomato">Удалить</a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7">Записей нет</td>
+                </tr>
+            @endforelse
+            </tbody>
+
+        </table>
+        {{ $categoryList->links() }}
+    </div>
 @endsection
